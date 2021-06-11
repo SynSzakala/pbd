@@ -4,3 +4,4 @@ begin
     select @type = client_type from client where id = @client_id
     return iif(@type = 'Company', 1, 0)
 end
+go;

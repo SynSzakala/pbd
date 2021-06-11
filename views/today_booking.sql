@@ -1,4 +1,4 @@
-CREATE VIEW today_bookings AS
+CREATE or alter VIEW today_bookings AS
 SELECT "order".id, price_netto, client.name
 FROM "order"
          INNER JOIN client ON client.id = "order".client_id

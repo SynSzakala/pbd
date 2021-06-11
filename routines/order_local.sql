@@ -7,6 +7,8 @@ alter procedure create_local_takeaway_order(
 ) as
 begin
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
+    if (@menu_id is null)
+        throw 1002, 'No active menu present for given date', 0;
 
     exec dbo.create_order_raw
          @client_id = @client_id,
@@ -30,8 +32,10 @@ alter procedure create_local_order(
 ) as
 begin
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
+    if (@menu_id is null)
+        throw 1002, 'No active menu present for given date', 0;
 
-    if (dbo.is_table_booked(@table_id, sysdatetime()))
+    if (dbo.is_table_booked(@table_id, sysdatetime()) = 1)
         throw 1005, 'Table is already booked', 0;
 
     exec dbo.create_order_raw

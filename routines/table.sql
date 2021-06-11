@@ -13,6 +13,7 @@ begin
             0
         );
 end
+go;
 
 create or
 alter function find_free_table(@start_time datetime, @end_time datetime, @seats_count integer) returns integer

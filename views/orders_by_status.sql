@@ -1,4 +1,4 @@
-CREATE FUNCTION orders_by_status (@Status VARCHAR(10))
+CREATE or alter FUNCTION orders_by_status (@Status VARCHAR(10))
 RETURNS TABLE
 AS
 RETURN
@@ -8,5 +8,6 @@ RETURN
     INNER JOIN client ON client.id = "order".client_id
     WHERE "order".status = @Status
 )
+go;
 
 select * from orders_by_status('Waiting');

@@ -1,4 +1,4 @@
-CREATE VIEW aktualne_menu AS
+CREATE or alter VIEW aktualne_menu AS
 SELECT item.name, item.price_netto
 FROM menu_position
 INNER JOIN item ON item.id = menu_position.item_id

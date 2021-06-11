@@ -8,6 +8,7 @@ ALTER FUNCTION clients_by_type(@ClientType VARCHAR(10))
                 FROM "client"
                 WHERE @ClientType = client.client_type
             )
+go;
 
 SELECT *
 FROM clients_by_type('Private');

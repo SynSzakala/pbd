@@ -1,6 +1,9 @@
+drop type if exists menu_item_ids;
+go;
+
 create type menu_item_ids as table
 (
-    id integer references item(id)
+    id integer unique
 );
 go;
 
@@ -58,7 +61,10 @@ begin
         if (dbo.is_menu_valid(@start_date, @item_ids) = 0)
             throw 1001, 'Menu is not valid, use @override_valid_check = 1 to disable this error', 0;
 
-    declare @menu_id_table table(id integer);
+    declare @menu_id_table table
+                           (
+                               id integer
+                           );
 
     insert into menu(start_date, end_date, created_date, created_by_employee_id)
     output inserted.id into @menu_id_table

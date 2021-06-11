@@ -1,8 +1,10 @@
-drop type order_item_ids
+drop type if exists order_item_ids;
+go;
+
 create type order_item_ids as table
 (
-    id       integer unique references item (id),
-    quantity integer,
+    id       integer unique,
+    quantity integer
 )
 go
 
@@ -11,8 +13,6 @@ alter function find_active_menu_id(@date datetime) returns integer
 begin
     declare @menu_id integer;
     select @menu_id = id from menu where @date >= start_date and @date <= end_date;
-    if (@menu_id is null)
-        throw 1002, 'No active menu present for given date', 0;
     return @menu_id;
 end
 go
@@ -69,7 +69,7 @@ alter procedure create_order_raw(
 begin
     declare @order_id_table table
                             (
-                                id integer references [order] (id)
+                                id integer
                             );
     insert into [order](client_id, discount_type, channel, status, is_takeaway, status_changed_by)
     output inserted.id into @order_id_table

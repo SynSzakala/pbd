@@ -1,4 +1,4 @@
-CREATE FUNCTION order_total(@OrderID INTEGER)
+CREATE or alter FUNCTION order_total(@OrderID INTEGER)
     RETURNS TABLE
     AS
 RETURN

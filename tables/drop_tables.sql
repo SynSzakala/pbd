@@ -1,8 +1,8 @@
-drop table order_position;
-drop table [order];
-drop table client;
-drop table bookable_table;
-drop table menu_position;
-drop table menu;
-drop table item;
-drop table employee;
+drop table if exists order_position;
+drop table if exists [order];
+drop table if exists client;
+drop table if exists bookable_table;
+drop table if exists menu_position;
+drop table if exists menu;
+drop table if exists item;
+drop table if exists employee;
