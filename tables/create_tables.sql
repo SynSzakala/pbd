@@ -69,7 +69,7 @@ CREATE TABLE "order"
     -- predicted time when order will be ready for pick-up, set when order is accepted,
     -- applies only for web-takeway orders
     predicted_ready_time    datetime,
-    ready_time              datetime, -- actual time of transition from 'Accepted' to 'Ready' state
+    ready_time              datetime,                                         -- actual time of transition from 'Accepted' to 'Ready' state
     booking_start_time      datetime,
     booking_end_time        datetime,
     booking_table_id        integer references bookable_table (id),
@@ -97,12 +97,13 @@ CREATE TABLE "order"
 
 CREATE TABLE order_position
 (
-    order_id          integer        not null references "order" (id),
-    item_id           integer        not null references item (id),
-    menu_id           integer        not null references menu (id),
-    saved_price_netto decimal(10, 2) not null,
-    saved_tax_rate    decimal(5, 2)  not null,
-    quantity          integer        not null,
+    order_id           integer        not null references "order" (id),
+    item_id            integer        not null references item (id),
+    menu_id            integer        not null references menu (id),
+    saved_price_netto  decimal(10, 2) not null,
+    saved_price_brutto as saved_price_netto * (1 + saved_tax_rate),
+    saved_tax_rate     decimal(5, 2)  not null,
+    quantity           integer        not null,
     primary key (order_id, item_id, menu_id),
     foreign key (item_id, menu_id) references menu_position (item_id, menu_id)
 );
