@@ -10,3 +10,4 @@ CREATE or alter FUNCTION order_summary(@OrderID INTEGER)
                          LEFT JOIN item ON item.id = order_position.item_id
                 WHERE order_id = @OrderID
             )
+
