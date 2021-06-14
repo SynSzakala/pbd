@@ -16,7 +16,7 @@ begin
          @is_takeaway = 1,
          @channel = 'Web',
          @employee_id = null,
-         @order_id = @order_id;
+         @order_id = @order_id output;
 
     if (@min_ready_delay_minutes is not null)
         update [order]
@@ -55,7 +55,7 @@ begin
          @is_takeaway = 0,
          @channel = 'Web',
          @employee_id = null,
-         @order_id = @order_id;
+         @order_id = @order_id output;
 
     update [order] set company_employee_name = @company_employee_name where id = @order_id;
 

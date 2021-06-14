@@ -6,5 +6,6 @@ CREATE
             JOIN client ON client.id = [order].client_id
     GROUP BY client.name;
 
-SELECT * FROM top_customers;
+go;
 
+SELECT * FROM top_customers;

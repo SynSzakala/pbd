@@ -9,5 +9,3 @@ RETURN
     WHERE order_id = @OrderID
 )
 GO
-
-select * from this_order(013);

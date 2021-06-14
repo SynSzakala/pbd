@@ -16,7 +16,7 @@ begin
          @is_takeaway = true,
          @employee_id = @employee_id,
          @channel = 'Local',
-         @order_id = @order_id;
+         @order_id = @order_id output;
 
     exec dbo.insert_order_positions @order_id, @menu_id, @item_ids;
 end
@@ -44,9 +44,9 @@ begin
          @is_takeaway = false,
          @employee_id = @employee_id,
          @channel = 'Local',
-         @order_id = @order_id;
+         @order_id = @order_id output;
 
-    update [order] set booking_start_time = sysdatetime(), booking_table_id = @table_id where id = @order_id;
+    update [order] set booking_table_id = @table_id where id = @order_id;
 
     exec dbo.insert_order_positions @order_id, @menu_id, @item_ids;
 end

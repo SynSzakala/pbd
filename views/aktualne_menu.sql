@@ -6,4 +6,4 @@ or alter
     FROM menu_position
     INNER JOIN item ON item.id = menu_position.item_id
     LEFT JOIN menu ON menu.id = menu_position.menu_id
-    WHERE GETDATE() >= menu.start_date AND GETDATE() <= menu.end_date;
+    WHERE menu.id = dbo.find_active_menu_id(sysdatetime());

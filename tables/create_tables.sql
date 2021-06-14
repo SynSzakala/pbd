@@ -27,7 +27,6 @@ CREATE TABLE menu
     end_date               datetime not null,
     created_date           datetime not null,
     created_by_employee_id integer  not null foreign key REFERENCES employee (id),
-    check (datediff(day, created_date, start_date) >= 1),
     check (end_date > start_date)
 );
 
