@@ -4,6 +4,7 @@ CREATE
         FROM [order]
                  INNER JOIN client ON client.id = [order].client_id
         WHERE booking_table_id IS NOT NULL
+          AND channel = 'Web'
           AND booking_start_time <= GETDATE()
           AND booking_start_time <= DATEADD(day, 1, GETDATE());
 GO

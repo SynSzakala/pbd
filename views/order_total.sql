@@ -9,14 +9,15 @@ RETURN
 )
 GO
 
-CREATE or alter FUNCTION disc_orders_lastmonth(@OrderID INTEGER)
-    RETURNS TABLE
+DROP FUNCTION disc_orders_lastmonth;
+GO
+
+CREATE or alter VIEW disc_orders_lastmonth
         AS
-        RETURN
             (
                 SELECT [order].id, price_netto, price_brutto, created_time, ready_time
                 FROM [order]
-                WHERE [order].id = @OrderID AND [order].discount_type IS NOT NULL AND MONTH([order].created_time) = MONTH(GETDATE()) - 1
+                WHERE [order].discount_type IS NOT NULL AND MONTH([order].created_time) = MONTH(GETDATE()) - 1 AND YEAR([order].created_time) = YEAR(GETDATE())
             )
 GO
 

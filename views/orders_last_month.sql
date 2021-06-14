@@ -8,7 +8,7 @@ ALTER FUNCTION ranged_report(@StartDate DATETIME, @EndDate DATETIME, @Type VARCH
                  JOIN client
                       ON client.id = [order].client_id
         WHERE (@Type = 'Booking' AND @StartDate <= [order].booking_start_time AND @EndDate >= [order].booking_end_time)
-           OR (@Type = 'Order' AND @StartDate <= [order].ready_time AND @EndDate >= [order].ready_time)
+           OR (@Type = 'Order' AND @StartDate <= [order].min_ready_time AND @EndDate >= [order].min_ready_time)
 GO
 
 -- TODO dodać wyspecjalizowane funkcje do miesięcznych i tygodniowych
@@ -29,7 +29,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (MONTH([order].created_time) = MONTH(GETDATE()))
+        WHERE (MONTH([order].created_time) = MONTH(GETDATE()) AND YEAR([order].created_time) = YEAR(GETDATE()))
 GO
 
 CREATE OR
@@ -39,7 +39,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (MONTH([order].created_time) = MONTH(GETDATE())-1))
+        WHERE (MONTH([order].created_time) = MONTH(GETDATE())-1) AND YEAR([order].created_time) = YEAR(GETDATE()))
 GO
 
 CREATE
