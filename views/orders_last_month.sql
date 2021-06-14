@@ -45,7 +45,7 @@ GO
 CREATE
     OR ALTER VIEW to_do_asap
 AS
-        (SELECT TOP 20 [order].id, price_netto, client.name
+        (SELECT TOP 20 [order].id, price_netto, client.name, [order].min_ready_time
         FROM [order]
                  INNER JOIN client ON client.id = [order].client_id
         WHERE [order].status = 'Accepted'
