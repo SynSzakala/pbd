@@ -3,11 +3,11 @@ RETURNS TABLE
 AS
 RETURN
 (
-    SELECT "order".id, price_netto, client.name
-    FROM "order"
-    INNER JOIN client ON client.id = "order".client_id
-    WHERE "order".status = @Status
+    SELECT [order].id, price_netto, client.name
+    FROM [order]
+    INNER JOIN client ON client.id = [order].client_id
+    WHERE [order].status = @Status
 )
-go;
+go
 
 select * from orders_by_status('Waiting');

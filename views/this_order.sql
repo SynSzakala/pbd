@@ -8,6 +8,6 @@ RETURN
     LEFT JOIN item ON item.id = order_position.item_id
     WHERE order_id = @OrderID
 )
-go;
+GO
 
 select * from this_order(013);

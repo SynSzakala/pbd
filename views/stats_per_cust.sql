@@ -4,9 +4,9 @@ alter FUNCTION cust_trx_hist(@ClientID INTEGER)
         AS
         RETURN
             (
-                SELECT "order".*, client.name
-                FROM "order"
-                         JOIN client ON client.id = "order".client_id
+                SELECT [order].*, client.name
+                FROM [order]
+                         JOIN client ON client.id = [order].client_id
                 where [order].client_id = @ClientID
             )
 go

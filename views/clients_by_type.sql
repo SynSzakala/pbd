@@ -5,7 +5,7 @@ ALTER FUNCTION clients_by_type(@ClientType VARCHAR(10))
         RETURN
             (
                 SELECT client.name, client.email
-                FROM "client"
+                FROM client
                 WHERE @ClientType = client.client_type
             )
 go;
