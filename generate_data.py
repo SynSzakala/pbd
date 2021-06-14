@@ -193,7 +193,7 @@ def make_data_order(old_order_number):
                                                        channel=channel_data,
                                                        min_ready_time=min_ready_time_data,
                                                        predicted_ready_time=predicted_ready_time_data,
-                                                       status='Ready',
+                                                       status=random.choice(['Accepted', 'Ready']),
                                                        created_time=datetime.datetime.combine(fake.date_object(),
                                                                                               datetime.datetime.min.time())
                                                        )
