@@ -37,7 +37,7 @@ df_fake_data = pd.DataFrame(fake_data)
 
 df_fake_data
 
-engine = create_engine('mssql+pyodbc://sa:KuBaWaL1@localhost/master?driver=ODBC+Driver+17+for+SQL+Server',
+engine = create_engine('mssql+pyodbc://localhost/master?trusted_connection=yes&driver=ODBC+Driver+13+for+SQL+Server',
                        pool_pre_ping=True)
 # definicja tabel
 meta = MetaData(bind=engine)
