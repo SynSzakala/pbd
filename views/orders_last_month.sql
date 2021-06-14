@@ -39,7 +39,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (MONTH([order].booking_start_time) = MONTH(GETDATE()))-1)
+        WHERE (MONTH([order].booking_start_time) = MONTH(GETDATE())-1))
 GO
 
 CREATE
