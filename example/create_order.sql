@@ -22,7 +22,7 @@ exec dbo.create_web_order_with_takeaway @item_ids = @ids, @client_id = 0, @min_r
 
 declare @prt datetime = dateadd(minute, 30, sysdatetime())
 
-exec dbo.accept_web_order @order_id = @order_id, @employee_id = 0, @predicted_ready_time = @prt;
+--exec dbo.accept_web_order @order_id = @order_id, @employee_id = 0, @predicted_ready_time = @prt;
 
 -- WebWithBooking --
 
@@ -37,4 +37,4 @@ exec dbo.create_web_order_with_booking
     @company_employee_name = default,
     @order_id = @order_id output
 
-exec dbo.accept_web_order @order_id = @order_id, @employee_id = 0, @predicted_ready_time = default;
+--exec dbo.accept_web_order @order_id = @order_id, @employee_id = 0, @predicted_ready_time = default;
