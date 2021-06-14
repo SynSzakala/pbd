@@ -8,6 +8,7 @@ alter FUNCTION order_total(@OrderID INTEGER)
                 FROM [order]
                 WHERE [order].id = @OrderID
             )
+GO
 
 go
 

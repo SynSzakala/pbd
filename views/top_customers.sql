@@ -5,6 +5,7 @@ CREATE
      FROM [order]
             JOIN client ON client.id = [order].client_id
     GROUP BY client.name;
+GO
 
 go;
 
