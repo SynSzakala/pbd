@@ -7,6 +7,7 @@ RETURN
     FROM [order]
     WHERE [order].id = @OrderID
 )
+GO
 
 CREATE or alter FUNCTION disc_orders_lastmonth(@OrderID INTEGER)
     RETURNS TABLE
