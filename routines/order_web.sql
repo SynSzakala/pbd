@@ -8,7 +8,7 @@ alter procedure create_web_order_with_takeaway(
 begin
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
     if (@menu_id is null)
-        throw 1002, 'No active menu present for given date', 0;
+        throw 50002, 'No active menu present for given date', 0;
 
     exec dbo.create_order_raw
          @client_id = @client_id,
@@ -39,15 +39,15 @@ alter procedure create_web_order_with_booking(
 ) as
 begin
     if (dbo.does_contain_seafood(@item_ids) = 1 and dbo.can_contain_seafood(@start_time) = 0)
-        throw 1009,'Invalid start_date for order with seafood', 0;
+        throw 50009,'Invalid start_date for order with seafood', 0;
 
     declare @table_id integer = dbo.find_free_table(@start_time, @end_time, @seats_count);
     if (@table_id is null)
-        throw 1010,'Cannot find table to book', 0;
+        throw 50010,'Cannot find table to book', 0;
 
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
     if (@menu_id is null)
-        throw 1002, 'No active menu present for given date', 0;
+        throw 50002, 'No active menu present for given date', 0;
 
     exec dbo.create_order_raw
          @client_id = @client_id,

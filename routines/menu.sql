@@ -55,11 +55,11 @@ alter procedure create_menu(
 ) as
 begin
     if (dbo.does_menu_overlap(@start_date, @end_date) = 1)
-        throw 1000, 'Menu overlaps with other menu', 0;
+        throw 50000, 'Menu overlaps with other menu', 0;
 
     if (@override_valid_check = 0)
         if (dbo.is_menu_valid(@start_date, @item_ids) = 0)
-            throw 1001, 'Menu is not valid, use @override_valid_check = 1 to disable this error', 0;
+            throw 50001, 'Menu is not valid, use @override_valid_check = 1 to disable this error', 0;
 
     declare @menu_id_table table
                            (
