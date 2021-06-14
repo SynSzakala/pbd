@@ -17,6 +17,7 @@ CREATE or alter FUNCTION disc_orders_lastmonth(@OrderID INTEGER)
                 FROM [order]
                 WHERE [order].id = @OrderID AND [order].discount_type IS NOT NULL AND MONTH([order].created_time) = MONTH(GETDATE()) - 1
             )
+GO
 
 -- to check after generating data
 CREATE
