@@ -1,11 +1,23 @@
 create or
+alter function can_contain_seafood(@start_date datetime) returns bit
+begin
+    declare @start_day int = datepart(day, @start_date);
+    declare @start_week datetime = dateadd(week, datediff(week, 0, @start_date), 0);
+    return iif(@start_day in (3, 4, 5) and sysdatetime() <= @start_week, 1, 0)
+end
+go;
+
+create or
 alter procedure create_web_order_with_takeaway(
     @item_ids order_item_ids readonly,
     @client_id integer,
-    @min_ready_delay_minutes integer = null,
+    @min_ready_time datetime = null,
     @order_id integer output
 ) as
 begin
+    if (dbo.does_contain_seafood(@item_ids) = 1 and dbo.can_contain_seafood(@min_ready_time) = 0)
+        throw 50009,'Invalid min_ready_time for order with seafood', 0;
+
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
     if (@menu_id is null)
         throw 50002, 'No active menu present for given date', 0;
@@ -18,9 +30,9 @@ begin
          @employee_id = null,
          @order_id = @order_id output;
 
-    if (@min_ready_delay_minutes is not null)
+    if (@min_ready_time is not null)
         update [order]
-        set min_ready_time = dateadd(minute, @min_ready_delay_minutes, sysdatetime())
+        set min_ready_time = @min_ready_time
         where id = @order_id;
 
     exec dbo.insert_order_positions @order_id, @menu_id, @item_ids;
@@ -57,18 +69,14 @@ begin
          @employee_id = null,
          @order_id = @order_id output;
 
-    update [order] set company_employee_name = @company_employee_name where id = @order_id;
+    update [order]
+    set company_employee_name = @company_employee_name,
+        booking_start_time    = @start_time,
+        booking_end_time      = @end_time,
+        booking_table_id      = @table_id
+    where id = @order_id;
 
     exec dbo.insert_order_positions @order_id, @menu_id, @item_ids;
-end
-go;
-
-create or
-alter function can_contain_seafood(@start_date datetime) returns bit
-begin
-    declare @start_day int = datepart(day, @start_date);
-    declare @start_week datetime = dateadd(week, datediff(week, 0, @start_date), 0);
-    return iif(@start_day in (3, 4, 5) and sysdatetime() <= @start_week, 1, 0)
 end
 go;
 
@@ -76,10 +84,15 @@ go;
 create or
 alter procedure accept_web_order(
     @order_id integer,
-    @employee_id integer
+    @employee_id integer,
+    @predicted_ready_time datetime = null
 ) as
 begin
-    update [order] set status = 'Accepted', status_changed_by = @employee_id where id = @order_id;
+    update [order]
+    set status               = 'Accepted',
+        status_changed_by    = @employee_id,
+        predicted_ready_time = @predicted_ready_time
+    where id = @order_id;
 end
 go;
 

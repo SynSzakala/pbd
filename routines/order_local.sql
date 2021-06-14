@@ -6,6 +6,9 @@ alter procedure create_local_takeaway_order(
     @order_id integer output
 ) as
 begin
+    if (dbo.does_contain_seafood(@item_ids) = 1)
+        throw 50009, 'Local orders cannot include seafood', 0;
+
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
     if (@menu_id is null)
         throw 50002, 'No active menu present for given date', 0;
@@ -31,6 +34,9 @@ alter procedure create_local_order(
     @order_id integer output
 ) as
 begin
+    if (dbo.does_contain_seafood(@item_ids) = 1)
+        throw 50009, 'Local orders cannot include seafood', 0;
+
     declare @menu_id integer = dbo.find_active_menu_id(sysdatetime());
     if (@menu_id is null)
         throw 50002, 'No active menu present for given date', 0;

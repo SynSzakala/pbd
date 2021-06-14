@@ -1,3 +1,0 @@
-begin transaction;
-
--- given --

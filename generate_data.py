@@ -5,6 +5,7 @@
 import contextlib
 import datetime
 import random
+import sys
 from collections import defaultdict
 
 import pandas as pd
@@ -37,8 +38,7 @@ df_fake_data = pd.DataFrame(fake_data)
 
 df_fake_data
 
-engine = create_engine('mssql+pyodbc://localhost/master?trusted_connection=yes&driver=ODBC+Driver+13+for+SQL+Server',
-                       pool_pre_ping=True)
+engine = create_engine(sys.argv[1], pool_pre_ping=True)
 # definicja tabel
 meta = MetaData(bind=engine)
 

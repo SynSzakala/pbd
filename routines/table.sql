@@ -27,8 +27,9 @@ begin
         select booking_table_id
         from [order]
         where booking_table_id is not null
-          and booking_end_time <= @start_time
-          and booking_start_time >= @end_time
+          and booking_end_time >= @start_time
+          and booking_start_time <= @end_time
+          and status <> 'Rejected'
     );
 
     return @id;
