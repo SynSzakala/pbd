@@ -19,7 +19,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (DATEDIFF(DAY, [order].booking_start_time, GETDATE()) <= 7)
+        WHERE (DATEDIFF(DAY, [order].created_time, GETDATE()) <= 7)
 GO
 
 CREATE OR
@@ -29,7 +29,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (MONTH([order].booking_start_time) = MONTH(GETDATE()))
+        WHERE (MONTH([order].created_time) = MONTH(GETDATE()))
 GO
 
 CREATE OR
@@ -39,7 +39,7 @@ AS
         FROM [order]
                  JOIN client
                       ON client.id = [order].client_id
-        WHERE (MONTH([order].booking_start_time) = MONTH(GETDATE())))
+        WHERE (MONTH([order].created_time) = MONTH(GETDATE())-1))
 GO
 
 CREATE
