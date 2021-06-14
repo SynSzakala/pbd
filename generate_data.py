@@ -9,7 +9,7 @@ from collections import defaultdict
 
 import pandas as pd
 from faker import Faker
-from sqlalchemy import create_engine, insert, MetaData, Table, text
+from sqlalchemy import create_engine, insert, MetaData, Table, text, func, select, Column, Integer
 
 
 def print_hi(name):
@@ -44,7 +44,7 @@ meta = MetaData(bind=engine)
 
 client = Table('client', meta, autoload_with=engine)
 bookable_table = Table('bookable_table', meta, autoload_with=engine)
-item = Table('item', meta, autoload_with=engine)
+item = Table('item', meta, Column('id', Integer, primary_key=True), autoload_with=engine)
 employee = Table('employee', meta, autoload_with=engine)
 menu = Table('menu', meta, autoload_with=engine)
 menu_position = Table('menu_position', meta, autoload_with=engine)
@@ -203,9 +203,18 @@ def make_data_order(old_order_number):
 def make_data_order_position():
     with engine.connect() as conn:
         for order_id in range(old_order_number):
-            item_ids = random.sample(range(number_of_menu), items_per_order)
-            data = {"order_id": order_id, "item_ids": [(item_id, random.choice(range(1, 5)) for item_id in item_ids]}
-            conn.execute(text("exec dbo.insert_order_positions @order_id=:order_id, @menu_id=0, @item_ids=:item_ids"),data)
+            for item_id in random.sample(range(number_of_items), 5):
+                item_data = conn.execute(select([item]).where(item.c.id == item_id)).fetchone()
+                conn.execute(
+                    insert(order_position).values(
+                        order_id=order_id,
+                        item_id=item_id,
+                        menu_id=0,
+                        saved_price_netto=item_data.price_netto,
+                        saved_tax_rate=item_data.tax_rate,
+                        quantity=random.choice(range(5))
+                    )
+                )
 
 
 def clear_table():
